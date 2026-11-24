@@ -21,7 +21,7 @@ _TOUCHES: set[asyncio.Task[None]] = set()
 
 def _require_database() -> None:
     if not postgres.configured():
-        raise HTTPException(503, "API keys require PostgreSQL; set POSTGRES_URI")
+        raise HTTPException(503, "API keys require PostgreSQL; set OPEN_SWE_POSTGRES_URI")
 
 
 def require_admin_with_database(admin: dict[str, Any] = ADMIN_DEP) -> dict[str, Any]:

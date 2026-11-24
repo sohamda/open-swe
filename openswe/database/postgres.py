@@ -38,7 +38,7 @@ MIGRATION_LOCK = 557314367248862439
 
 
 def uri() -> str | None:
-    value = ENV.POSTGRES_URI.optional()
+    value = ENV.OPEN_SWE_POSTGRES_URI.optional() or ENV.POSTGRES_URI.optional()
     if value is None and ENV.LANGSMITH_LANGGRAPH_API_VARIANT.get() == "local_dev":
         value = "postgresql://postgres:postgres@127.0.0.1:5433/postgres"
     if value is None:
@@ -67,7 +67,8 @@ def configured() -> bool:
 def require_configured() -> None:
     if not configured():
         raise RuntimeError(
-            "POSTGRES_URI is required: pull request and repository records are stored in PostgreSQL"
+            "OPEN_SWE_POSTGRES_URI or POSTGRES_URI is required: pull request and repository "
+            "records are stored in PostgreSQL"
         )
 
 
