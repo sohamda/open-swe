@@ -419,6 +419,11 @@ ENV.var(
     "POSTGRES_URI", "LangGraph deployment PostgreSQL URI available to custom code.", secret=True
 )
 ENV.var(
+    "OPEN_SWE_POSTGRES_URI",
+    "PostgreSQL URI for Open SWE's own tables. Overrides POSTGRES_URI, which LangSmith reserves.",
+    secret=True,
+)
+ENV.var(
     "LANGSMITH_LANGGRAPH_API_VARIANT",
     "LangGraph API runtime variant.",
     default="",
