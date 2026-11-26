@@ -357,12 +357,18 @@ def _harness_args(config: ReviewerEvalConfig, limit: int | None) -> list[str]:
     return args + (["--limit", str(limit)] if limit else [])
 
 
+def _repo_url() -> str:
+    """Where the eval sandbox fetches the deployment's commit: a fork's commit isn't upstream."""
+    return ENV.OPEN_SWE_EVAL_REPO_URL.optional() or REPO_URL
+
+
 def _sandbox_command(ref: str, args: list[str], stop_url: str) -> str:
     script = (
         'export PATH="/root/.local/bin:$PATH"; '
         "command -v uv || curl -LsSf https://astral.sh/uv/install.sh | sh; "
         "git init -q /root/open-swe && cd /root/open-swe && "
-        f"git fetch -q --depth 1 {REPO_URL} {shlex.quote(ref)} && git checkout -q FETCH_HEAD && "
+        f"git fetch -q --depth 1 {shlex.quote(_repo_url())} {shlex.quote(ref)} && "
+        "git checkout -q FETCH_HEAD && "
         f"uv sync --locked && timeout {EVAL_TIMEOUT_SECONDS} "
         f"uv run python -m evals.reviewer.run_eval {shlex.join(args)}"
     )

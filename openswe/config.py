@@ -383,6 +383,10 @@ ENV.var(
     secret=True,
 )
 ENV.var(
+    "OPEN_SWE_EVAL_REPO_URL",
+    "Git URL the reviewer eval sandbox fetches this deployment's commit from. Set it for a fork.",
+)
+ENV.var(
     "LANGSMITH_LANGGRAPH_API_VARIANT",
     "LangGraph API runtime variant.",
     default="",
