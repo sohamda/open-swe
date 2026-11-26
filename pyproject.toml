@@ -38,6 +38,9 @@ dependencies = [
     "Pygments>=2.21.0",
     "githubkit[auth-app]==0.16.1",
     "githubkit-schemas[2022-11-28]==26.9.29",
+    # githubkit 0.16.1 needs hishel's 1.4 API; newer hishel releases removed CachePolicy, and the
+    # LangSmith build resolves from pyproject.toml, not uv.lock. Matches the version in uv.lock.
+    "hishel[async,httpx]==1.4.0",
     "jinja2>=3.1.6",
     "langchain-typesafe==0.0.1a3",
     "langchain-quickjs==0.3.9",
