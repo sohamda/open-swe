@@ -366,6 +366,9 @@ def _sandbox_command(ref: str, args: list[str], stop_url: str) -> str:
     script = (
         'export PATH="/root/.local/bin:$PATH"; '
         "command -v uv || curl -LsSf https://astral.sh/uv/install.sh | sh; "
+        # uv's own Python ships its headers. The sandbox's system Python 3.14 has none, so
+        # packages without a 3.14 wheel (bsdiff4, via langchain-quickjs) fail to build.
+        "export UV_PYTHON_PREFERENCE=only-managed; "
         "git init -q /root/open-swe && cd /root/open-swe && "
         f"git fetch -q --depth 1 {shlex.quote(_repo_url())} {shlex.quote(ref)} && "
         "git checkout -q FETCH_HEAD && "
